@@ -310,6 +310,8 @@
       <p>El Galleria</p>
     </header>
 
+    <audio id="bgMusic" src="Kiss me.mp3" autoplay loop></audio>
+    
     <div class="Message">
       <p>Happy 5th Monthsarry, My Love.</p>
       <p>
@@ -769,8 +771,6 @@
       />
     </div>
 
-    <audio id="bgMusic" src="Kiss me.mp3" autoplay loop></audio>
-
     <!-- Modal -->
     <div id="modal" class="modal">
       <span class="close">&times;</span>
@@ -779,7 +779,8 @@
 
     <script>
       const audio = document.getElementById('bgMusic');
-
+      audio.volume = 0.2;
+      
       (() => {
         // Use a Map so DOM elements can be used as keys reliably
         const slideIndexMap = new Map();
