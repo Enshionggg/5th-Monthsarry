@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Jacquard+24&family=Jacquard+12&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pixelify+Sans:wght@400..700&display=swap&family=Mochiy+Pop+One&family=Mitr&display=swap"
+      rel="stylesheet"
+    />
+    <title>Happy 5th Monthsarry</title>
+    <link rel="icon" href="favicon.png" />
+    <style>
+      :root {
+        --bg: #aa0235;
+        --card: #70020f;
+        --text: #ffdee2;
+        --muted: #ffff;
+        --accent: #ffdee2;
+        --radius: 16px;
+        --shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      }
+
+      body {
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 0.5)
+          ),
+          url("bg.gif");
+        min-height: 100vh;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        background-attachment: fixed;
+        margin: 40px;
+        place-items: center;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      header p {
+        font-family: "Jacquard 12", system-ui;
+        font-weight: 300;
+        font-size: 100px;
+        color: aliceblue;
+        text-align: center;
+        z-index: 10;
+      }
+
+      .body-container {
+        padding-top: 100px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .card-container {
+        padding-top: 50px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 24px;
+        width: min(1100px, 100%);
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        color: var(--text);
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        text-align: left;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 35px rgba(0, 0, 0, 0.3);
+      }
+
+      .card__image {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card__image img {
+        width: 100%;
+        display: block;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+
+      .card:hover .card__image img {
+        transform: scale(1.05);
+      }
+
+      .card__body {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .card__title {
+        font-size: 16px;
+        margin: 0;
+        font-family: "Mochiy Pop One";
+      }
+
+      .card__text {
+        color: var(--muted);
+        margin: 0;
+        font-family: "Mitr";
+      }
+
+      .card__footer {
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        font-family: "Mitr";
+      }
+
+      .tag {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 999px;
+        background: rgba(96, 165, 250, 0.15);
+        color: var(--accent);
+        white-space: nowrap;
+      }
+
+      .btn {
+        padding: 0.55rem 0.9rem;
+        border-radius: 12px;
+        background: #ffdee2;
+        color: #70020f;
+        font-weight: 600;
+        cursor: pointer;
+        transition: filter 0.2s ease, transform 0.2s ease;
+        font-family: "Mitr";
+      }
+
+      .btn:hover {
+        filter: brightness(1.08);
+        transform: translateY(-1px);
+      }
+
+      .btn:focus {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      /* Custom button style */
+      .custom-upload-btn {
+        display: inline-block;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #fff3b0, #9e2a2b, #e09f3e);
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        font-family: "Pixelify Sans", sans-serif;
+        text-align: center;
+        /* match your style */
+      }
+
+      .custom-upload-btn:hover {
+        background: linear-gradient(135deg, #8f94fb, #4e54c8);
+        transform: scale(1.05);
+      }
+
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+      }
+
+      .modal img {
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      .modal .close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 40px;
+        color: white;
+        cursor: pointer;
+      }
+
+      #gallery {
+        column-count: 5;
+        /* number of columns */
+        column-gap: 15px;
+        padding-top: 100px;
+        margin: 10px;
+      }
+
+      #gallery img {
+        width: 100%;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        display: block;
+        cursor: pointer;
+      }
+
+      /* Hide the real input */
+      #imageInput {
+        display: none;
+      }
+
+      .slideshow-container {
+        position: relative;
+        max-width: 1000px; /* Adjust as needed */
+        margin: auto;
+      }
+
+      .mySlides {
+        display: none;
+      }
+
+      .mySlides img {
+        border-radius: 8px 8px 0 0;
+      }
+
+      /* Next & previous buttons */
+      .prev,
+      .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+      }
+
+      /* Position the "next button" to the right */
+      .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+      }
+
+      /* On hover, add a black background with a little transparency */
+      .prev:hover,
+      .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      /* Fade animation */
+      .fade {
+        animation-name: fade;
+        animation-duration: 1.5s;
+      }
+
+      @keyframes fade {
+        from {
+          opacity: 0.4;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .jacquard-12-regular {
+        font-family: "Jacquard 12", system-ui;
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      .Message {
+        font-family: "Jacquard 12", system-ui;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 37px;
+        color: aliceblue;
+        margin-bottom: 20px;
+        width: 1050.83px;
+        overflow-wrap: break-word;
+        text-align: justify;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <p>El Galleria</p>
+    </header>
+
+    <div class="Message">
+      <p>Happy 5th Monthsarry, My Love.</p>
+      <p>
+        Hello my dear! Its been 5 months since gisugot tika to be my personal
+        slave mwehehehe. We've been through a lot within those 5 months, and I
+        am grateful that we are still here. I will always be here for you, so
+        don't hesitate to lean on me whenever you feel restless and tired. I
+        hope we'll create more memories together, and we'll grow up to be filthy
+        rich with 10 cats and 2 dogs cuz I said so. Though, can you belive na
+        nahimo nako ni na website in like almost half a day?! I am the best
+        Mwehehehehe Praise me!, Worship me!, Love me!... Wait am getting
+        side-tracked erm... Anyway... I will do my very best to be better, so
+        that I am deserving of you.
+      </p>
+      <p>I will always cherish and love you, my dearest Lori.</p>
+      <p>
+        Faithfully yours, <br />
+        Precious
+      </p>
+    </div>
+
+    <div class="card-container">
+      <div class="cards">
+        <article class="card">
+          <div class="card__image slideshow-container">
+            <div class="mySlides fade">
+              <img src="us/cardpic1.jpeg" alt="Photo 1" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic2.jpeg" alt="Photo 2" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic3.jpeg" alt="Photo 3" style="width: 100%" />
+            </div>
+
+            <a class="prev" onclick="plusSlides(this.parentElement, -1)"
+              >&#10094;</a
+            >
+            <a class="next" onclick="plusSlides(this.parentElement, 1)"
+              >&#10095;</a
+            >
+
+            <div class="dots-container">
+              <span
+                class="dot"
+                onclick="currentSlide(this.parentElement.parentElement, 1)"
+              ></span>
+              <span
+                class="dot"
+                onclick="currentSlide(this.parentElement.parentElement, 2)"
+              ></span>
+              <span
+                class="dot"
+                onclick="currentSlide(this.parentElement.parentElement, 3)"
+              ></span>
+            </div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">Relationship Origin ?!</h3>
+            <p class="card__text">The day I became yer 4ever slave</p>
+            <div class="card__footer">
+              <span class="tag">Start</span>
+              <button class="btn view-btn" data-img="currentSlide">View</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__image slideshow-container">
+            <div class="mySlides fade">
+              <img src="us/cardpic4.JPG" alt="Photo 4" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic5.png" alt="Photo 5" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic6.png" alt="Photo 6" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic7.png" alt="Photo 7" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic8.png" alt="Photo 8" style="width: 100%" />
+            </div>
+
+            <a class="prev" onclick="plusSlides(this.parentElement, -1)"
+              >&#10094;</a
+            >
+            <a class="next" onclick="plusSlides(this.parentElement, 1)"
+              >&#10095;</a
+            >
+
+            <div class="dots-container">
+              <span
+                class="dot"
+                onclick="currentSlide(this.parentElement.parentElement, 1)"
+              ></span>
+              <span
+                class="dot"
+                onclick="currentSlide(this.parentElement.parentElement, 2)"
+              ></span>
+              <span
+                class="dot"
+                onclick="currentSlide(this.parentElement.parentElement, 3)"
+              ></span>
+            </div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">Maravilla Laag</h3>
+            <p class="card__text">Cutie kayka ani na day mwehehehehe</p>
+            <div class="card__footer">
+              <span class="tag">Laag</span>
+              <button class="btn view-btn" data-img="us/pic1.jpg">View</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__image slideshow-container">
+            <div class="mySlides fade">
+              <img src="us/cardpic9.jpg" alt="Photo 1" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic10.png" alt="Photo 2" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic11.jpg" alt="Photo 3" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic12.jpg" alt="Photo 4" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic13.jpg" alt="Photo 5" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic14.jpg" alt="Photo 6" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic15.jpg" alt="Photo 7" style="width: 100%" />
+            </div>
+            <div class="mySlides fade">
+              <img src="us/cardpic17.jpg" alt="Photo 8" style="width: 100%" />
+            </div>
+
+            <a class="prev" onclick="plusSlides(this.parentElement, -1)"
+              >&#10094;</a
+            >
+            <a class="next" onclick="plusSlides(this.parentElement, 1)"
+              >&#10095;</a
+            >
+
+            <div class="dots-container">
+              <span
+                class="dot"
+                onclick="currentSlide(this.parentElement.parentElement, 1)"
+              ></span>
+              <span
+                class="dot"
+                onclick="currentSlide(this.parentElement.parentElement, 2)"
+              ></span>
+              <span
+                class="dot"
+                onclick="currentSlide(this.parentElement.parentElement, 3)"
+              ></span>
+            </div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">Simbang Date</h3>
+            <p class="card__text">My Fave Date</p>
+            <div class="card__footer">
+              <span class="tag">Date</span>
+              <button class="btn view-btn" data-img="us/pic1.jpg">View</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <div id="gallery">
+      <img src="gal/20241211_131929.png" alt="gallery images" />
+      <img src="gal/20241211_131930.png" alt="gallery images" />
+      <img src="gal/20241211_132017.png" alt="gallery images" />
+      <img src="gal/20241221_121025.png" alt="gallery images" />
+      <img src="gal/20241221_121028.png" alt="gallery images" />
+      <img src="gal/20241221_144446_674.jpg" alt="gallery images" />
+      <img src="gal/20250220_224941.png" alt="gallery images" />
+      <img src="gal/20250220_224950.png" alt="gallery images" />
+      <img src="gal/20250222_164355.png" alt="gallery images" />
+      <img src="gal/20250222_164358.png" alt="gallery images" />
+      <img src="gal/20250306_133019.png" alt="gallery images" />
+      <img src="gal/20250306_133021.png" alt="gallery images" />
+      <img src="gal/20250306_133022.png" alt="gallery images" />
+      <img src="gal/20250327_010059.png" alt="gallery images" />
+      <img src="gal/20250327_010103.png" alt="gallery images" />
+      <img src="gal/20250409_193935.png" alt="gallery images" />
+      <img src="gal/20250409_193938.png" alt="gallery images" />
+      <img src="gal/20250409_193940.png" alt="gallery images" />
+      <img src="gal/20250409_193941.png" alt="gallery images" />
+      <img src="gal/20250415_133137.png" alt="gallery images" />
+      <img src="gal/20250423_100548.png" alt="gallery images" />
+      <img src="gal/20250423_100553.png" alt="gallery images" />
+      <img src="gal/20250502_065818.jpg" alt="gallery images" />
+      <img src="gal/20250502_065841.jpg" alt="gallery images" />
+      <img src="gal/20250504_153656.png" alt="gallery images" />
+      <img src="gal/20250504_153843.png" alt="gallery images" />
+      <img src="gal/20250504_153921.png" alt="gallery images" />
+      <img src="gal/20250507_184953.png" alt="gallery images" />
+      <img src="gal/20250507_184955.png" alt="gallery images" />
+      <img src="gal/20250507_185004.png" alt="gallery images" />
+      <img src="gal/20250507_185010.png" alt="gallery images" />
+      <img src="gal/20250507_185011.png" alt="gallery images" />
+      <img src="gal/20250507_185014.png" alt="gallery images" />
+      <img src="gal/20250507_185116.png" alt="gallery images" />
+      <img src="gal/20250514_025117.png" alt="gallery images" />
+      <img src="gal/20250514_025119.png" alt="gallery images" />
+      <img src="gal/20250514_025120.png" alt="gallery images" />
+      <img src="gal/20250514_062225.png" alt="gallery images" />
+      <img src="gal/20250514_062227.png" alt="gallery images" />
+      <img src="gal/20250514_062230.png" alt="gallery images" />
+      <img src="gal/a.jpeg" alt="gallery images" />
+      <img src="gal/a.png" alt="gallery images" />
+      <img src="gal/b.jpeg" alt="gallery images" />
+      <img src="gal/b.png" alt="gallery images" />
+      <img src="gal/c.jpeg" alt="gallery images" />
+      <img src="gal/c.png" alt="gallery images" />
+      <img src="gal/cardpic1.jpeg" alt="gallery images" />
+      <img src="gal/cardpic10.png" alt="gallery images" />
+      <img src="gal/cardpic11.jpg" alt="gallery images" />
+      <img src="gal/cardpic12.jpg" alt="gallery images" />
+      <img src="gal/cardpic13.jpg" alt="gallery images" />
+      <img src="gal/cardpic14.jpg" alt="gallery images" />
+      <img src="gal/cardpic15.jpg" alt="gallery images" />
+      <img src="gal/cardpic17.jpg" alt="gallery images" />
+      <img src="gal/cardpic2.jpeg" alt="gallery images" />
+      <img src="gal/cardpic2.jpg" alt="gallery images" />
+      <img src="gal/cardpic3.jpeg" alt="gallery images" />
+      <img src="gal/cardpic3.jpg" alt="gallery images" />
+      <img src="gal/cardpic4.JPG" alt="gallery images" />
+      <img src="gal/cardpic5.png" alt="gallery images" />
+      <img src="gal/cardpic6.png" alt="gallery images" />
+      <img src="gal/cardpic7.png" alt="gallery images" />
+      <img src="gal/cardpic8.png" alt="gallery images" />
+      <img src="gal/cardpic9.jpg" alt="gallery images" />
+      <img src="gal/d.jpeg" alt="gallery images" />
+      <img src="gal/d.png" alt="gallery images" />
+      <img src="gal/e.png" alt="gallery images" />
+      <img src="gal/f.png" alt="gallery images" />
+      <img src="gal/g.png" alt="gallery images" />
+      <img
+        src="gal/Messenger_creation_0A64F4B1-55D0-4A7D-B6CA-508221FCD1D9.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_0F8E0415-F3E4-4ABF-BB78-7AB0C8D8C7C7.png"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_16F5C2DA-594E-4CA8-8BBA-92DCF3D03CF1.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_241FD814-87EC-45D7-A1BD-138FB5EBC6DB.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_2919D48F-F60C-4BA4-84B0-0CF37827EBDD.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_29FB4B3D-F1CD-4A8A-87E7-42B6DF045849.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_2A0C49F2-2BC5-4FD8-9CF7-E83AA3FF2A79.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_3CF8052D-A0A9-4A8A-9550-7F5E4CCD6903.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_3DAFF160-BA5F-4AA6-907B-1CA7154D8A28.png"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_42C22B03-0232-4737-B6AE-497610C37331.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_49AFF7A9-01C4-490F-AABA-69C20A7D45CF.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_4F093AB9-260B-446C-AD38-D589F5BE9187.png"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_5520E7DD-EF00-4352-BF34-31F628056C12.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_5D743455-B04D-4977-B322-536A96E5E7C6.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_66E5EE15-E594-4F23-B910-84FB2AD24A93.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_6C2A83F8-6320-4AAF-86B9-644BB0F2635D.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_6D97F119-D552-492F-93D2-204F38FF4517.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_6E62701C-4DB4-4CFE-B001-EBE6F267EEEE.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_7B50D3FF-8AAA-4636-8571-7074F776B177.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_87393DCA-78E3-4BE4-9B48-59630C7465A6.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_8771D470-559B-44D8-BCBF-345280D55F2B.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_8B402345-8AB8-4E8D-889A-8B57FB2AADB0.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_965B0810-4338-4BB3-8E2C-C5E6AB507909.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_970003294982666.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_9EE5E43D-2BBC-4C05-BD99-137204B7A894.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_A513CA12-AF3C-4ED0-BD40-9FAC4BD7CFF7.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_A5924477-62E4-4F27-8107-F1D068D97AB9.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_AA107286-36F6-4C35-8D55-B75053E97BF0.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_AAB9E8A9-43B9-484F-8F2D-80E3CC50856B.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_ABAB6629-3D3D-47A5-B69B-2E604C92BECA.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_AF322F7C-B5DB-4B2D-A589-A26FF5477151.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_B5AA54EA-D4C9-4B72-97B7-0FCF16844642.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_B5B540CE-EE01-460E-86BC-4C3B2935FF49.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_BFC7A827-2A1C-471D-869C-0F16C6A5C91F.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_C0F54173-F780-4F5C-9138-E59394928D95.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_C3735AE3-5C26-44E6-9E2B-112093D2D99F.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_C44CDFB9-3880-4DDB-8943-6151D3A204FF.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_CD577D34-0546-4ADB-8336-7DEA0B37BB40.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_CF061225-1EFF-4B96-9F62-69DEC6F19F4B.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_D5C41AE8-65AB-46DC-A1E8-23E46CE1ECBA.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_E42106B7-F0CA-46B3-A3E8-9132C8B861D6.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_E6960D63-AF5F-4889-AF47-311042BF3123.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_E727EA95-AFC6-4C8A-B52D-AE43AB31624B.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_E96FCF57-BF2F-4A1B-A5D6-BE1AD25516B8.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_ED075E4B-4E66-411C-94BD-104F377566B3.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_FA8124CA-FC58-4268-AD13-014A64418F7D.jpeg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Messenger_creation_FE626660-A9E9-4B47-8CE2-976AA9689289.jpeg"
+        alt="gallery images"
+      />
+      <img src="gal/pic1.jpg" alt="gallery images" />
+      <img src="gal/pic2.png" alt="gallery images" />
+      <img src="gal/received_8178147472312431.jpeg" alt="gallery images" />
+      <img src="gal/received_944320684410301.jpeg" alt="gallery images" />
+      <img
+        src="gal/Screenshot_20250402_175609_Discord.jpg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Screenshot_20250402_181356_Discord.jpg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Screenshot_20250402_181406_Discord.jpg"
+        alt="gallery images"
+      />
+      <img
+        src="gal/Screenshot_20250402_181454_Discord.jpg"
+        alt="gallery images"
+      />
+    </div>
+
+    <audio id="bgMusic" src="Kiss me.mp3" autoplay loop></audio>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <span class="close">&times;</span>
+      <img id="modalImg" src="" />
+    </div>
+
+    <script>
+      const audio = document.getElementById('bgMusic');
+
+      (() => {
+        // Use a Map so DOM elements can be used as keys reliably
+        const slideIndexMap = new Map();
+
+        // Initialize all slideshows (show first slide)
+        function initSlides() {
+          document
+            .querySelectorAll(".slideshow-container")
+            .forEach((container) => {
+              slideIndexMap.set(container, 1);
+              showSlides(container, 1);
+            });
+        }
+
+        // Expose plusSlides/currentSlide globally (they are used by inline onclick attributes)
+        window.plusSlides = function (container, n) {
+          const current = slideIndexMap.get(container) || 1;
+          showSlides(container, current + n);
+        };
+
+        window.currentSlide = function (container, n) {
+          showSlides(container, n);
+        };
+
+        function showSlides(container, n) {
+          const slides = container.getElementsByClassName("mySlides");
+          const dots = container.getElementsByClassName("dot");
+          if (slides.length === 0) return;
+
+          // wrap around
+          if (n > slides.length) n = 1;
+          if (n < 1) n = slides.length;
+
+          // save current index
+          slideIndexMap.set(container, n);
+
+          // hide all slides and deactivate dots
+          for (let i = 0; i < slides.length; i++)
+            slides[i].style.display = "none";
+          for (let i = 0; i < dots.length; i++)
+            dots[i].classList.remove("active");
+
+          // show current slide and activate the corresponding dot (if present)
+          slides[n - 1].style.display = "block";
+          if (dots[n - 1]) dots[n - 1].classList.add("active");
+
+          // update the View button in the same card (so it always points to the shown image)
+          const currentImg = slides[n - 1].querySelector("img");
+          const viewBtn = container
+            .closest(".card")
+            ?.querySelector(".view-btn");
+          if (viewBtn) {
+            viewBtn.dataset.img = currentImg ? currentImg.src : "";
+          }
+        }
+
+        // Delegate clicks for view buttons and gallery images
+        document.addEventListener("click", (e) => {
+          const target = e.target;
+          const modal = document.getElementById("modal");
+          const modalImg = document.getElementById("modalImg");
+
+          // If a View button was clicked
+          if (target.matches(".view-btn")) {
+            const card = target.closest(".card");
+            if (!card) return;
+            const container = card.querySelector(".slideshow-container");
+
+            // Prefer dataset.img (kept updated by showSlides); otherwise compute from current index
+            let src = target.dataset.img;
+            if (!src && container) {
+              const idx = slideIndexMap.get(container) || 1;
+              const slides = container.getElementsByClassName("mySlides");
+              const imgEl = slides[idx - 1]?.querySelector("img");
+              src = imgEl ? imgEl.src : "";
+            }
+
+            if (src) {
+              modal.style.display = "flex";
+              modalImg.src = src;
+            }
+            return;
+          }
+
+          // If a gallery image was clicked
+          if (target.matches("#gallery img")) {
+            modal.style.display = "flex";
+            modalImg.src = target.src;
+            return;
+          }
+
+          // If modal close clicked
+          if (target.matches(".modal .close")) {
+            modal.style.display = "none";
+            return;
+          }
+        });
+
+        // Close modal if clicking outside image
+        const modalEl = document.getElementById("modal");
+        if (modalEl) {
+          modalEl.addEventListener("click", (ev) => {
+            if (ev.target === modalEl) modalEl.style.display = "none";
+          });
+        }
+
+        // run init after DOM is ready
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initSlides);
+        } else {
+          initSlides();
+        }
+      })();
+    </script>
+  </body>
+</html>
